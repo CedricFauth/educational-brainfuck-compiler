@@ -10,6 +10,12 @@ void *resize(ir_code_t *ir, size_t n) {
 	return ir->data;
 }
 
+void clear(ir_code_t *ir) {
+	ir->capacity = 0;
+	ir->length = 0;
+	free(ir->data);
+}
+
 int add(ir_code_t *ir, char sym) {
 	if (ir->length == ir->capacity) {
 		if (!resize(ir, ir->capacity*2)) {
@@ -20,16 +26,10 @@ int add(ir_code_t *ir, char sym) {
 	return 0;
 }
 
-void clear(ir_code_t *ir) {
-	ir->capacity = 0;
-	ir->length = 0;
-	resize(ir, 0);
-}
-
 int read(ir_code_t *ir, char *fn) {
 	ir->length = 0;
+	ir->data = NULL;
 	if (!resize(ir, INIT_SIZE)) return -1;
-	ir->capacity = INIT_SIZE;
 
 	if (!ir) return -1;
 	FILE *fp = fopen(fn,"r");

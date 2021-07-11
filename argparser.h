@@ -3,6 +3,7 @@
 
 int parse(const int n, char **args);
 
-char *filename();
+char *in_filename();
+char *out_filename();
 
 #endif
