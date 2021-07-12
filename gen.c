@@ -50,7 +50,7 @@ char *asm_dec = "\tdec DWORD [rbx]\n";
 char *asm_next = "\tadd rbx, 4\n";
 char *asm_prev = "\tsub rbx, 4\n";
 
-size_t *loop_ptr, loop_count = 1, loop_stack[1000];
+size_t *loop_ptr, loop_count = 1, loop_stack[2048];
 
 size_t loop_push() {
 	*loop_ptr = loop_count;
@@ -73,8 +73,8 @@ int generate(ir_code_t *ir, char *fn) {
 
 	loop_ptr = loop_stack;
 	size_t val;
-	char whilebuff[strlen(asm_while)-2];
-	char endbuff[strlen(asm_endwhile)-2];
+	char whilebuff[strlen(asm_while)+1-4];
+	char endbuff[strlen(asm_while)+1-4];
 
 	fwrite(asm_header, 1, strlen(asm_header), fp);
 	for (size_t i = 0; i < ir->length; ++i) {

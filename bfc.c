@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 		clear(&ir);
 		exit(EXIT_FAILURE);
 	}
-
+	
 	clear(&ir);
 	exit(EXIT_SUCCESS);
 }
