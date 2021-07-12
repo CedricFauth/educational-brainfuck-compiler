@@ -2,14 +2,14 @@
 #define CODE_BFC_H
 
 typedef enum token {
-	INC='+',
-	DEC='-',
-	NEXT='>',
-	PREV='<',
-	WHILE='[',
-	END=']',
-	PUT='.',
-	GET=','
+	TOK_INC='+',
+	TOK_DEC='-',
+	TOK_NEXT='>',
+	TOK_PREV='<',
+	TOK_WHILE='[',
+	TOK_END=']',
+	TOK_PUT='.',
+	TOK_GET=','
 } token_t;
 
 typedef struct ir_code {

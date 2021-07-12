@@ -38,8 +38,8 @@ section .data
 section .text
 _main:
     mov     rbx, array
-
-    mov     DWORD [rbx], 10
+; !end head
+    mov     DWORD [rbx], 4
     add     rbx, 4
     mov     DWORD [rbx], 'A'
 
@@ -47,17 +47,21 @@ _main:
     ;READCHAR
     ;sub     rbx, 8
     ;mov     rbx, array
-
     mov     rbx, array
+
+; head
 L0:
     cmp     DWORD [rbx], 0
     je E0
-    dec     DWORD [rbx]
+; !head
     add rbx, 4
     PUTCHAR
     sub rbx, 4
+    dec     DWORD [rbx]
+; end
     jmp L0
 E0:
+; !end
 
     ;mov     rbx, array
     ;PUTCHAR

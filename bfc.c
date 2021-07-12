@@ -4,14 +4,7 @@
 #include "argparser.h"
 #include "code.h"
 #include "gen.h"
-
-#if 1
-	#define DEBUGS(s) puts(s) 
-	#define DEBUG(f_, ...) printf((f_), __VA_ARGS__)
-#else
-	#define DEBUGS(s)
-	#define DEBUG(f_)
-#endif
+#include "bfc.h"
 
 int main(int argc, char **argv)
 {
@@ -34,8 +27,8 @@ int main(int argc, char **argv)
 	// optimize(ir);
 
 	char *ofname = out_filename();
-	DEBUGS("writing to %s...\n", ofname);
-	if (generate(ir, ofname) != 0 ) {
+	DEBUG("writing to %s...\n", ofname);
+	if (generate(&ir, ofname) != 0 ) {
 		perror("error");
 		clear(&ir);
 		exit(EXIT_FAILURE);

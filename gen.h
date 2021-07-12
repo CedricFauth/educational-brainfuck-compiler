@@ -3,6 +3,6 @@
 
 #include "code.h"
 
-int generate(ir_code_t *ir, char fn);
+int generate(ir_code_t *ir, char *fn);
 
 #endif
