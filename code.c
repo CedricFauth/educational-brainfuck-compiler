@@ -26,7 +26,7 @@ int add(ir_code_t *ir, char sym) {
 	return 0;
 }
 
-int read(ir_code_t *ir, char *fn) {
+int read_ir(ir_code_t *ir, char *fn) {
 	ir->length = 0;
 	ir->data = NULL;
 	if (!resize(ir, INIT_SIZE)) return -1;

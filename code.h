@@ -23,7 +23,7 @@ typedef struct ir_code {
 	size_t capacity;
 } ir_code_t;
 
-int read(ir_code_t *ir, char *fn);
+int read_ir(ir_code_t *ir, char *fn);
 void clear(ir_code_t *ir);
 
 #endif
