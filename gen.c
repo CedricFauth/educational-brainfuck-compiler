@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "code.h"
 #include "bfc.h"
 
@@ -45,10 +46,14 @@ E%03lu:\n";
 
 char *asm_put = "\tPUTCHAR\n";
 char *asm_get = "\tREADCHAR\n";
-char *asm_inc = "\tinc DWORD [rbx]\n";
 char *asm_dec = "\tdec DWORD [rbx]\n";
-char *asm_next = "\tadd rbx, 4\n";
+char *asm_inc = "\tinc DWORD [rbx]\n";
 char *asm_prev = "\tsub rbx, 4\n";
+char *asm_next = "\tadd rbx, 4\n";
+char *asm_shortprev = "\tsub rbx, 4*%lu\n";
+char *asm_shortnext = "\tadd rbx, 4*%lu\n";
+char *asm_shortdec = "\tsub DWORD [rbx], %lu\n";
+char *asm_shortinc = "\tadd DWORD [rbx], %lu\n";
 
 size_t *loop_ptr, loop_count = 1, loop_stack[2048];
 
@@ -73,13 +78,16 @@ int generate(ir_code_t *ir, char *fn) {
 
 	loop_ptr = loop_stack;
 	size_t val;
-	char whilebuff[strlen(asm_while)+1-4];
-	char endbuff[strlen(asm_while)+1-4];
+	char buff[100];
 
 	fwrite(asm_header, 1, strlen(asm_header), fp);
 	for (size_t i = 0; i < ir->length; ++i) {
-		char token = ir->data[i];
+		size_t token = ir->data[i];
+		size_t next;
+		double tmp;
 		switch (token) {
+		case TOK_NOOP:
+			break;
 		case TOK_PUT:
 			fwrite(asm_put, 1, strlen(asm_put), fp);
 			break;
@@ -100,17 +108,44 @@ int generate(ir_code_t *ir, char *fn) {
 			break;
 		case TOK_WHILE:
 			val = loop_push();
-			snprintf(whilebuff, strlen(asm_while)+1-4, asm_while, val, val);
-			fwrite(whilebuff, 1, strlen(whilebuff), fp);
+			snprintf(buff, strlen(asm_while)+1-4, asm_while, val, val);
+			fwrite(buff, 1, strlen(buff), fp);
 			break;
 		case TOK_END:
 			val = loop_pop();
-			snprintf(endbuff, strlen(asm_endwhile)+1-4, asm_endwhile, val, val);
-			fwrite(endbuff, 1, strlen(endbuff), fp);
+			snprintf(buff, strlen(asm_endwhile)+1-4, asm_endwhile, val, val);
+			fwrite(buff, 1, strlen(buff), fp);
 			break;
-		
+		case TOK_SHORTPREV:
+			next = ir->data[i+1]*4;
+			/* testing
+			if (modf(sqrt((double)next), &tmp) == 0.0) {
+				next = (size_t)tmp;
+				printf("\tshr rbx, %lu\n", next);
+				snprintf(buff, strlen("\tshr rbx, %lu\n")+25, "\tshr rbx, %lu\n", next);
+			} else {*/
+				snprintf(buff, strlen(asm_shortprev)+25, asm_shortprev, ir->data[i+1]);
+			//}
+			fwrite(buff, 1, strlen(buff), fp);
+			++i;
+			break;
+		case TOK_SHORTNEXT:
+			snprintf(buff, strlen(asm_shortnext)+25, asm_shortnext, ir->data[i+1]);
+			fwrite(buff, 1, strlen(buff), fp);
+			++i;
+			break;
+		case TOK_SHORTDEC:
+			snprintf(buff, strlen(asm_shortdec)+25, asm_shortdec, ir->data[i+1]);
+			fwrite(buff, 1, strlen(buff), fp);
+			++i;
+			break;
+		case TOK_SHORTINC:
+			snprintf(buff, strlen(asm_shortinc)+25, asm_shortinc, ir->data[i+1]);
+			fwrite(buff, 1, strlen(buff), fp);
+			++i;
+			break;
 		default:
-			DEBUG("error: unknown symbol in generator: %c\n", token);
+			DEBUG("error: unknown symbol in generator: %c\n", (char)token);
 			break;
 		}
 	}
@@ -119,4 +154,3 @@ int generate(ir_code_t *ir, char *fn) {
 	fclose(fp);
 	return 0;
 }
-

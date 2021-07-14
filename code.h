@@ -2,6 +2,11 @@
 #define CODE_BFC_H
 
 typedef enum token {
+	TOK_NOOP,
+	TOK_SHORTINC,
+	TOK_SHORTDEC,
+	TOK_SHORTNEXT,
+	TOK_SHORTPREV,
 	TOK_INC='+',
 	TOK_DEC='-',
 	TOK_NEXT='>',
@@ -13,7 +18,7 @@ typedef enum token {
 } token_t;
 
 typedef struct ir_code {
-	char *data;
+	size_t *data;
 	size_t length;
 	size_t capacity;
 } ir_code_t;

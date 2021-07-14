@@ -1,10 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
+#include "bfc.h"
 #include "argparser.h"
 #include "code.h"
 #include "gen.h"
-#include "bfc.h"
+#include "opti.h"
 
 int main(int argc, char **argv)
 {
@@ -22,9 +24,20 @@ int main(int argc, char **argv)
 	}
 
 	DEBUG("IR codesize: %lu of %lu\n", ir.length, ir.capacity);
-	for (int i = 0; i < ir.length ; ++i) DEBUG("%c", ir.data[i]); DEBUGS("");
+	for (int i = 0; i < ir.length ; ++i) {
+		size_t c = ir.data[i];
+		DEBUG("%lu(%c) ", c, iscntrl(c) ? '\0' : (char)c);
+	}
+	DEBUGS("");
 
-	// optimize(ir);
+	// optimizer
+	optimize(&ir);
+
+	for (int i = 0; i < ir.length ; ++i) {
+		size_t c = ir.data[i];
+		DEBUG("%lu(%c) ", c, iscntrl(c) ? '\0' : (char)c);
+	}
+	DEBUGS("");
 
 	char *ofname = out_filename();
 	DEBUG("writing to %s...\n", ofname);

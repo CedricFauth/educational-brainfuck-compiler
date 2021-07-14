@@ -5,7 +5,7 @@
 #define INIT_SIZE 8
 
 void *resize(ir_code_t *ir, size_t n) {
-	ir->data = realloc(ir->data, n);
+	ir->data = realloc(ir->data, n*sizeof(*ir->data));
 	ir->capacity = n;
 	return ir->data;
 }

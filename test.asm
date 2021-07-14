@@ -58,40 +58,22 @@ E003:
 	PUTCHAR
 	jmp L001
 E001:
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 8
 L004:	cmp DWORD [rbx], 0
 	je E004
 	add rbx, 4
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 4
 L005:	cmp DWORD [rbx], 0
 	je E005
 	add rbx, 4
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 2
+	add rbx, 4
+	add DWORD [rbx], 3
+	add rbx, 4
+	add DWORD [rbx], 3
 	add rbx, 4
 	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	add rbx, 4
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	add rbx, 4
-	inc DWORD [rbx]
-	sub rbx, 4
-	sub rbx, 4
-	sub rbx, 4
-	sub rbx, 4
+	sub rbx, 4*4
 	dec DWORD [rbx]
 	jmp L005
 E005:
@@ -101,8 +83,7 @@ E005:
 	inc DWORD [rbx]
 	add rbx, 4
 	dec DWORD [rbx]
-	add rbx, 4
-	add rbx, 4
+	add rbx, 4*2
 	inc DWORD [rbx]
 L006:	cmp DWORD [rbx], 0
 	je E006
@@ -113,61 +94,33 @@ E006:
 	dec DWORD [rbx]
 	jmp L004
 E004:
-	add rbx, 4
-	add rbx, 4
+	add rbx, 4*2
 	PUTCHAR
 	add rbx, 4
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
+	sub DWORD [rbx], 3
 	PUTCHAR
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 7
 	PUTCHAR
 	PUTCHAR
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 3
 	PUTCHAR
-	add rbx, 4
-	add rbx, 4
+	add rbx, 4*2
 	PUTCHAR
 	sub rbx, 4
 	dec DWORD [rbx]
 	PUTCHAR
 	sub rbx, 4
 	PUTCHAR
-	inc DWORD [rbx]
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 3
 	PUTCHAR
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
+	sub DWORD [rbx], 6
 	PUTCHAR
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
-	dec DWORD [rbx]
+	sub DWORD [rbx], 8
 	PUTCHAR
-	add rbx, 4
-	add rbx, 4
+	add rbx, 4*2
 	inc DWORD [rbx]
 	PUTCHAR
 	add rbx, 4
-	inc DWORD [rbx]
-	inc DWORD [rbx]
+	add DWORD [rbx], 2
 	PUTCHAR
 	EXIT
