@@ -83,8 +83,6 @@ int generate(ir_code_t *ir, char *fn) {
 	fwrite(asm_header, 1, strlen(asm_header), fp);
 	for (size_t i = 0; i < ir->length; ++i) {
 		size_t token = ir->data[i];
-		size_t next;
-		double tmp;
 		switch (token) {
 		case TOK_NOOP:
 			break;
@@ -117,15 +115,7 @@ int generate(ir_code_t *ir, char *fn) {
 			fwrite(buff, 1, strlen(buff), fp);
 			break;
 		case TOK_SHORTPREV:
-			next = ir->data[i+1]*4;
-			/* testing
-			if (modf(sqrt((double)next), &tmp) == 0.0) {
-				next = (size_t)tmp;
-				printf("\tshr rbx, %lu\n", next);
-				snprintf(buff, strlen("\tshr rbx, %lu\n")+25, "\tshr rbx, %lu\n", next);
-			} else {*/
-				snprintf(buff, strlen(asm_shortprev)+25, asm_shortprev, ir->data[i+1]);
-			//}
+			snprintf(buff, strlen(asm_shortprev)+25, asm_shortprev, ir->data[i+1]);
 			fwrite(buff, 1, strlen(buff), fp);
 			++i;
 			break;
